@@ -8,34 +8,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-const maxCounter = 10
-
-type data struct {
-	m       sync.Mutex
-	counter int
-}
-
-func (d *data) isSafeToIncrease() bool {
-	d.m.Lock()
-	defer d.m.Unlock()
-
-	return d.counter < maxCounter
-}
-
-func (d *data) increase() {
-	d.m.Lock()
-	defer d.m.Unlock()
-
-	d.counter += 1
-}
-
-func (d *data) getCounter() int {
-	d.m.Lock()
-	defer d.m.Unlock()
-
-	return d.counter
-}
-
 func TestExample1000Times(t *testing.T) {
 	for i := 0; i < 1000; i++ {
 		t.Run(fmt.Sprint(i), TestExample)
